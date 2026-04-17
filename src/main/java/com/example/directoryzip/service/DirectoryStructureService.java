@@ -1,9 +1,9 @@
 package com.example.directoryzip.service;
 
 import com.example.directoryzip.model.Fichier;
-import com.example.directoryzip.model.FichierMarkdown;
-import com.example.directoryzip.model.FichierTexte;
 import com.example.directoryzip.model.Repertoire;
+import com.example.directoryzip.model.typefichier.FichierMarkdown;
+import com.example.directoryzip.model.typefichier.FichierTexte;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class DirectoryStructureService {
 
-    public Repertoire creerStructureExemple() {
+    public Repertoire creerStructure() {
         Repertoire racine = new Repertoire("zip", null);
 
         Repertoire documents = new Repertoire("documents", racine);
@@ -72,7 +72,7 @@ public class DirectoryStructureService {
     }
 
     public Path genererStructureSurDisque(Path dossierTravail) {
-        Repertoire racine = creerStructureExemple();
+        Repertoire racine = creerStructure();
         Path racinePath = dossierTravail.resolve(racine.getNom());
 
         try {
@@ -95,7 +95,7 @@ public class DirectoryStructureService {
             Path filePath = currentPath.resolve(fichier.getNomComplet());
             Files.write(
                     filePath,
-                    fichier.getContenu(),
+                    fichier.contenu(),
                     StandardCharsets.UTF_8,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING

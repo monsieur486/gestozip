@@ -32,13 +32,13 @@ public class ZipController {
         try {
             Path workingDir = Path.of("generated");
             Path generatedDirectory = directoryStructureService.genererStructureSurDisque(workingDir);
-            Path zipPath = zipService.zipDirectory(generatedDirectory, workingDir.resolve("zip.zip"));
+            Path zipPath = zipService.zipDirectory(generatedDirectory, workingDir.resolve("generation.zip"));
 
             byte[] zipBytes = Files.readAllBytes(zipPath);
             ByteArrayResource resource = new ByteArrayResource(zipBytes);
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zip.zip")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=generation.zip")
                     .contentType(MediaType.parseMediaType("application/zip"))
                     .contentLength(zipBytes.length)
                     .body(resource);

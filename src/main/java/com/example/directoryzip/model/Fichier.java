@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface Fichier {
 
-    List<String> getContenu();
+    List<String> contenu();
 
-    String getNom();
+    String nom();
 
     String getExtension();
 
-    Repertoire getRepertoire();
+    Repertoire repertoire();
 
     default String getNomComplet() {
-        return getNom() + "." + getExtension();
+        return nom() + "." + getExtension();
     }
 }

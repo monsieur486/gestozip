@@ -1,14 +1,14 @@
 package com.example.directoryzip.controller;
 
+import com.example.directoryzip.genration.zipspringboot.SpringBootFormRequest;
 import com.example.directoryzip.service.DirectoryStructureService;
 import com.example.directoryzip.service.ZipService;
+import jakarta.validation.Valid;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -27,8 +27,8 @@ public class ZipController {
         this.zipService = zipService;
     }
 
-    @GetMapping(value = "/download", produces = "application/zip")
-    public ResponseEntity<ByteArrayResource> downloadZip() {
+    @PostMapping(value = "/springboot", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<ByteArrayResource> download(@Valid @ModelAttribute SpringBootFormRequest request) {
         try {
             Path workingDir = Path.of("generated");
             Path generatedDirectory = directoryStructureService.genererStructureSurDisque(workingDir);

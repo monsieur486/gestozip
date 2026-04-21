@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,5 +16,18 @@ public class ZipSpringBootFormRequest {
     private Integer javaVersion;
 
     @NotNull
-    private String nomProjet;
+    private String name;
+
+    @NotNull
+    private String groupId;
+
+    @NotNull
+    private String artifactId;
+
+    @NotNull
+    private String version;
+
+    @NotNull
+    private List<String> dependencies;
+
 }

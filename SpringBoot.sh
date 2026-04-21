@@ -1,5 +1,10 @@
 curl -X POST http://localhost:8080/api/zip/springboot \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "javaVersion=17" \
-  -d "nomProjet=HelloWorld" \
+  -d "name=HelloWorld" \
+  -d "groupId=com.mr486" \
+  -d "artifactId=HelloWorld" \
+  -d "version=0.0.1-SNAPSHOT" \
+  -d "dependencies=web" \
+  -d "dependencies=lombok" \
   --output springboot.zip

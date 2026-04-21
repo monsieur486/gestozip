@@ -1,0 +1,15 @@
+curl -X POST http://localhost:8080/api/zip/springboot \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "javaVersion=17" \
+  -d "name=DemoPlatform" \
+  -d "groupId=com.mr486" \
+  -d "artifactId=demo-platform" \
+  -d "version=0.0.1-SNAPSHOT" \
+  -d "localPort=8081" \
+  -d "dockerPort=9000" \
+  -d "microservices=true" \
+  -d "modules=eureka-server" \
+  -d "modules=api-gateway" \
+  -d "modules=service-a" \
+  -d "modules=service-b" \
+  --output springboot.zip

@@ -26,26 +26,21 @@ public class PomXmlGeneratorService {
         xml.add("<project xmlns=\"http://maven.apache.org/POM/4.0.0\"");
         xml.add("         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
         xml.add("         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">");
-
         xml.add("    <modelVersion>4.0.0</modelVersion>");
-
         xml.add("    <parent>");
         xml.add("        <groupId>org.springframework.boot</groupId>");
         xml.add("        <artifactId>spring-boot-starter-parent</artifactId>");
         xml.add("        <version>" + SPRING_BOOT_VERSION + "</version>");
         xml.add("        <relativePath/>");
         xml.add("    </parent>");
-
         xml.add("    <groupId>" + escapeXml(request.getGroupId()) + "</groupId>");
         xml.add("    <artifactId>" + escapeXml(request.getArtifactId()) + "</artifactId>");
         xml.add("    <version>" + escapeXml(request.getVersion()) + "</version>");
         xml.add("    <name>" + escapeXml(request.getName()) + "</name>");
         xml.add("    <description>" + escapeXml(request.getName()) + "</description>");
-
         xml.add("    <properties>");
         xml.add("        <java.version>" + request.getJavaVersion() + "</java.version>");
         xml.add("    </properties>");
-
         xml.add("    <dependencies>");
 
         Set<String> dependencies = normalizeDependencies(request.getDependencies());
@@ -59,12 +54,9 @@ public class PomXmlGeneratorService {
         xml.add("            <artifactId>spring-boot-starter-test</artifactId>");
         xml.add("            <scope>test</scope>");
         xml.add("        </dependency>");
-
         xml.add("    </dependencies>");
-
         xml.add("    <build>");
         xml.add("        <plugins>");
-
         xml.add("            <plugin>");
         xml.add("                <groupId>org.springframework.boot</groupId>");
         xml.add("                <artifactId>spring-boot-maven-plugin</artifactId>");
@@ -99,7 +91,6 @@ public class PomXmlGeneratorService {
 
         xml.add("        </plugins>");
         xml.add("    </build>");
-
         xml.add("</project>");
 
         return xml;

@@ -1,18 +1,31 @@
 package com.example.directoryzip.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Fichier {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Fichier {
 
-    List<String> contenu();
+    private String nom;
+    private String extension;
+    private Repertoire parent;
+    private List<String> contenu = new ArrayList<>();
 
-    String nom();
-
-    String getExtension();
-
-    Repertoire repertoire();
-
-    default String getNomComplet() {
-        return nom() + "." + getExtension();
+    public Fichier(String nom, String extension, List<String> contenu) {
+        this.nom = nom;
+        this.extension = extension;
+        this.contenu = contenu;
+        this.parent = null;
     }
+
+    public String getNomComplet() {
+        return nom + "." + extension;
+    }
+
 }

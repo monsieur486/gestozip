@@ -1,41 +1,37 @@
 package com.example.directoryzip.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Repertoire {
 
-    private final String nom;
-    private final Repertoire parent;
-    private final List<Repertoire> sousRepertoires = new ArrayList<>();
-    private final List<Fichier> fichiers = new ArrayList<>();
+    private String nom;
+    private Repertoire parent;
+    private List<Repertoire> sousRepertoires = new ArrayList<>();
+    private List<Fichier> fichiers = new ArrayList<>();
 
-    public Repertoire(String nom, Repertoire parent) {
+    public Repertoire(String nom) {
         this.nom = nom;
-        this.parent = parent;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public Repertoire getParent() {
-        return parent;
-    }
-
-    public List<Repertoire> getSousRepertoires() {
-        return sousRepertoires;
-    }
-
-    public List<Fichier> getFichiers() {
-        return fichiers;
     }
 
     public void ajouterSousRepertoire(Repertoire repertoire) {
+        repertoire.setParent(this);
         this.sousRepertoires.add(repertoire);
     }
 
+    private void setParent(Repertoire repertoire) {
+        this.parent = repertoire;
+    }
+
     public void ajouterFichier(Fichier fichier) {
+        fichier.setParent(this);
         this.fichiers.add(fichier);
     }
 

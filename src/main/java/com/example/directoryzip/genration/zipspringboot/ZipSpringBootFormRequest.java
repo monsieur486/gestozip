@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpringBootFormRequest {
+public class ZipSpringBootFormRequest {
 
     @NotNull
     private Integer javaVersion;
+
+    @NotNull
+    private String nomProjet;
 }

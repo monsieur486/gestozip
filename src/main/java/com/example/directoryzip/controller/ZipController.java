@@ -1,14 +1,19 @@
 package com.example.directoryzip.controller;
 
-import com.example.directoryzip.genration.zipspringboot.SpringBootFormRequest;
+import com.example.directoryzip.genration.zipspringboot.ZipSpringBootFormRequest;
+import com.example.directoryzip.genration.zipspringboot.ZipSpringBootService;
 import com.example.directoryzip.service.DirectoryStructureService;
 import com.example.directoryzip.service.ZipService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -17,21 +22,18 @@ import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/api/zip")
+@RequiredArgsConstructor
 public class ZipController {
 
     private final DirectoryStructureService directoryStructureService;
+    private final ZipSpringBootService zipSpringBootService;
     private final ZipService zipService;
 
-    public ZipController(DirectoryStructureService directoryStructureService, ZipService zipService) {
-        this.directoryStructureService = directoryStructureService;
-        this.zipService = zipService;
-    }
-
     @PostMapping(value = "/springboot", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<ByteArrayResource> download(@Valid @ModelAttribute SpringBootFormRequest request) {
+    public ResponseEntity<ByteArrayResource> download(@Valid @ModelAttribute ZipSpringBootFormRequest request) {
         try {
             Path workingDir = Path.of("generated");
-            Path generatedDirectory = directoryStructureService.genererStructureSurDisque(workingDir);
+            Path generatedDirectory = directoryStructureService.genererStructureSurDisque(workingDir, zipSpringBootService.creerStructure(request));
             Path zipPath = zipService.zipDirectory(generatedDirectory, workingDir.resolve("generation.zip"));
 
             byte[] zipBytes = Files.readAllBytes(zipPath);

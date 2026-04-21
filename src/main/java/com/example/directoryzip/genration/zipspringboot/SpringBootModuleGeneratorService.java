@@ -14,6 +14,7 @@ public class SpringBootModuleGeneratorService {
     private final MainApplicationGeneratorService mainApplicationGeneratorService;
     private final DockerfileGeneratorService dockerfileGeneratorService;
     private final HelloControllerGeneratorService helloControllerGeneratorService;
+    private final ApiResponseGeneratorService apiResponseGeneratorService;
 
     public Repertoire generateModule(ZipSpringBootFormRequest request, String moduleName) {
         Repertoire moduleRoot = new Repertoire(moduleName);
@@ -29,9 +30,11 @@ public class SpringBootModuleGeneratorService {
         Fichier appYml = moduleApplicationYamlGeneratorService.generate(request, moduleName);
         Fichier dockerfile = dockerfileGeneratorService.generate(request, moduleName);
         Fichier mainClass = mainApplicationGeneratorService.generate(modulePackage, moduleName);
+        Fichier apiResponse = apiResponseGeneratorService.generateModule(request, moduleName);
 
         Repertoire packageTree = buildPackageTree(modulePackage);
         packageTree.ajouterFichier(mainClass);
+        packageTree.ajouterFichier(apiResponse);
 
         if (helloControllerGeneratorService.shouldGenerateForModule(moduleName)) {
             Fichier helloController = helloControllerGeneratorService.generateModule(request, moduleName);

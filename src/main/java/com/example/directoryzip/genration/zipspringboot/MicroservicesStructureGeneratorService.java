@@ -14,6 +14,8 @@ public class MicroservicesStructureGeneratorService {
     private final SpringBootModuleGeneratorService springBootModuleGeneratorService;
     private final RootDockerComposeGeneratorService rootDockerComposeGeneratorService;
     private final RootEnvGeneratorService rootEnvGeneratorService;
+    private final GitignoreGeneratorService gitignoreGeneratorService;
+    private final ReadmeGeneratorService readmeGeneratorService;
 
     public Repertoire generate(ZipSpringBootFormRequest request) {
         String rootName = request.getArtifactId();
@@ -31,9 +33,13 @@ public class MicroservicesStructureGeneratorService {
 
         Fichier compose = rootDockerComposeGeneratorService.generate(request, modules);
         Fichier env = rootEnvGeneratorService.generate(request, modules);
+        Fichier gitignore = gitignoreGeneratorService.generate();
+        Fichier readme = readmeGeneratorService.generateMicroservices(request, modules);
 
         root.ajouterFichier(compose);
         root.ajouterFichier(env);
+        root.ajouterFichier(gitignore);
+        root.ajouterFichier(readme);
 
         return root;
     }

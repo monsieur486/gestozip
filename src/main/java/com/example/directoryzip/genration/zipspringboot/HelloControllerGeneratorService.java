@@ -13,7 +13,7 @@ public class HelloControllerGeneratorService {
         String packageName = buildSingleAppPackageName(request);
         String appName = request.getArtifactId();
 
-        return generateController(packageName, appName, "/api/hello", "Hello from " + appName + " !");
+        return generateController(packageName, "/api/hello", "Hello from " + appName + " !");
     }
 
     public Fichier generateModule(ZipSpringBootFormRequest request, String moduleName) {
@@ -30,16 +30,14 @@ public class HelloControllerGeneratorService {
             message = "Hello from service-b !";
         }
 
-        return generateController(packageName, moduleName, path, message);
+        return generateController(packageName, path, message);
     }
 
     public boolean shouldGenerateForModule(String moduleName) {
         return "service-a".equals(moduleName) || "service-b".equals(moduleName);
     }
 
-    private Fichier generateController(String packageName, String sourceName, String requestPath, String message) {
-        String className = "HelloController";
-
+    private Fichier generateController(String packageName, String requestPath, String message) {
         List<String> lines = new ArrayList<>();
         lines.add("package " + packageName + ";");
         lines.add("");
@@ -49,41 +47,15 @@ public class HelloControllerGeneratorService {
         lines.add("");
         lines.add("@RestController");
         lines.add("@RequestMapping(\"" + requestPath + "\")");
-        lines.add("public class " + className + " {");
+        lines.add("public class HelloController {");
         lines.add("");
         lines.add("    @GetMapping");
-        lines.add("    public String hello() {");
-        lines.add("        return \"" + escapeJava(message) + "\";");
+        lines.add("    public ApiResponse<String> hello() {");
+        lines.add("        return new ApiResponse<>(true, \"" + escapeJava(message) + "\", \"" + escapeJava(message) + "\");");
         lines.add("    }");
         lines.add("}");
 
-        return new Fichier(className, "java", lines);
-    }
-
-    private String buildControllerClassName(String value) {
-        if (value == null || value.isBlank()) {
-            return "HelloController";
-        }
-
-        String cleaned = value.replaceAll("[^a-zA-Z0-9\\-_.]", "");
-        String[] parts = cleaned.split("[\\-_.]+");
-
-        StringBuilder sb = new StringBuilder();
-        for (String part : parts) {
-            if (part == null || part.isBlank()) {
-                continue;
-            }
-            sb.append(Character.toUpperCase(part.charAt(0)));
-            if (part.length() > 1) {
-                sb.append(part.substring(1).toLowerCase());
-            }
-        }
-
-        if (sb.isEmpty()) {
-            return "HelloController";
-        }
-
-        return sb.append("HelloController").toString();
+        return new Fichier("HelloController", "java", lines);
     }
 
     private String buildSingleAppPackageName(ZipSpringBootFormRequest request) {
@@ -116,8 +88,6 @@ public class HelloControllerGeneratorService {
         if (value == null) {
             return "";
         }
-        return value
-                .replace("\\", "\\\\")
-                .replace("\"", "\\\"");
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }

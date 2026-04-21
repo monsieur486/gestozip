@@ -7,5 +7,5 @@ curl -X POST http://localhost:8080/api/zip/springboot \
   -d "version=0.0.1-SNAPSHOT" \
   -d "dependencies=web" \
   -d "localPort=8080" \
-  -d "dockerPort=8080" \
+  -d "dockerPort=9000" \
   --output springboot.zip

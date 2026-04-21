@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,7 +28,13 @@ public class ZipSpringBootFormRequest {
     @NotNull
     private String version;
 
+    private List<String> dependencies = new ArrayList<>();
+
     @NotNull
-    private List<String> dependencies;
+    private Integer localPort;
+
+    private Integer dockerPort;
+
+
 
 }

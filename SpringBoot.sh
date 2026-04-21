@@ -3,8 +3,9 @@ curl -X POST http://localhost:8080/api/zip/springboot \
   -d "javaVersion=17" \
   -d "name=HelloWorld" \
   -d "groupId=com.mr486" \
-  -d "artifactId=HelloWorld" \
+  -d "artifactId=hello" \
   -d "version=0.0.1-SNAPSHOT" \
   -d "dependencies=web" \
-  -d "dependencies=lombok" \
+  -d "localPort=8080" \
+  -d "dockerPort=8080" \
   --output springboot.zip

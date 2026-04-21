@@ -25,6 +25,9 @@ public class Fichier {
     }
 
     public String getNomComplet() {
+        if (extension == null || extension.isBlank()) {
+            return nom;
+        }
         return nom + "." + extension;
     }
 

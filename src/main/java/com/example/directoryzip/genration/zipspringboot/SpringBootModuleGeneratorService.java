@@ -13,6 +13,7 @@ public class SpringBootModuleGeneratorService {
     private final ModuleApplicationYamlGeneratorService moduleApplicationYamlGeneratorService;
     private final MainApplicationGeneratorService mainApplicationGeneratorService;
     private final DockerfileGeneratorService dockerfileGeneratorService;
+    private final HelloControllerGeneratorService helloControllerGeneratorService;
 
     public Repertoire generateModule(ZipSpringBootFormRequest request, String moduleName) {
         Repertoire moduleRoot = new Repertoire(moduleName);
@@ -22,7 +23,7 @@ public class SpringBootModuleGeneratorService {
         Repertoire java = new Repertoire("java");
         Repertoire resources = new Repertoire("resources");
 
-        String modulePackage = request.getGroupId() + "." + normalizePackage(moduleName);
+        String modulePackage = mainApplicationGeneratorService.buildModulePackageName(request, moduleName);
 
         Fichier pom = modulePomGeneratorService.generate(request, moduleName);
         Fichier appYml = moduleApplicationYamlGeneratorService.generate(request, moduleName);
@@ -31,6 +32,11 @@ public class SpringBootModuleGeneratorService {
 
         Repertoire packageTree = buildPackageTree(modulePackage);
         packageTree.ajouterFichier(mainClass);
+
+        if (helloControllerGeneratorService.shouldGenerateForModule(moduleName)) {
+            Fichier helloController = helloControllerGeneratorService.generateModule(request, moduleName);
+            packageTree.ajouterFichier(helloController);
+        }
 
         java.ajouterSousRepertoire(packageTree);
         resources.ajouterFichier(appYml);
@@ -46,12 +52,9 @@ public class SpringBootModuleGeneratorService {
         return moduleRoot;
     }
 
-    private String normalizePackage(String moduleName) {
-        return moduleName.replace("-", "").toLowerCase();
-    }
-
     private Repertoire buildPackageTree(String packageName) {
         String[] parts = packageName.split("\\.");
+
         Repertoire root = new Repertoire(parts[0]);
         Repertoire current = root;
 

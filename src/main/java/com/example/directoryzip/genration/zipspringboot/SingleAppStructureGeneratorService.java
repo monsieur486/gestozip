@@ -14,6 +14,7 @@ public class SingleAppStructureGeneratorService {
     private final DockerfileGeneratorService dockerfileGeneratorService;
     private final DockerComposeGeneratorService dockerComposeGeneratorService;
     private final MainApplicationGeneratorService mainApplicationGeneratorService;
+    private final HelloControllerGeneratorService helloControllerGeneratorService;
 
     public Repertoire generate(ZipSpringBootFormRequest request) {
         String projectName = request.getArtifactId();
@@ -30,9 +31,12 @@ public class SingleAppStructureGeneratorService {
         Fichier dockerfile = dockerfileGeneratorService.generate(request);
         Fichier dockerCompose = dockerComposeGeneratorService.generate(request);
         Fichier mainApplication = mainApplicationGeneratorService.generate(request);
+        Fichier helloController = helloControllerGeneratorService.generateSingleApp(request);
 
-        Repertoire packageTree = buildPackageTree(request.getGroupId());
+        String packageName = mainApplicationGeneratorService.buildSingleAppPackageName(request);
+        Repertoire packageTree = buildPackageTree(packageName);
         packageTree.ajouterFichier(mainApplication);
+        packageTree.ajouterFichier(helloController);
 
         java.ajouterSousRepertoire(packageTree);
         resources.ajouterFichier(applicationYml);

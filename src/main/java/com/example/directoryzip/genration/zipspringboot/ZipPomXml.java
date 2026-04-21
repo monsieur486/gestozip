@@ -23,11 +23,10 @@ public class ZipPomXml {
     }
 
     private List<String> contenu(ZipSpringBootFormRequest request) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getVersion());
-        sb.append("<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
-        sb.append("         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n");
-        return List.of(sb.toString());
+        String sb = getVersion() +
+                "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n";
+        return List.of(sb);
     }
 
     private String getVersion() {

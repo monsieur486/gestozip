@@ -13,8 +13,7 @@ public class MainApplicationGeneratorService {
         String className = buildMainClassName(request.getArtifactId());
 
         List<String> lines = new ArrayList<>();
-        String basePackage = request.getGroupId() + "." + request.getArtifactId().replace("-", "").toLowerCase();
-        lines.add("package " + basePackage + ";");
+        lines.add("package " + request.getGroupId() + ";");
         lines.add("");
         lines.add("import org.springframework.boot.SpringApplication;");
         lines.add("import org.springframework.boot.autoconfigure.SpringBootApplication;");

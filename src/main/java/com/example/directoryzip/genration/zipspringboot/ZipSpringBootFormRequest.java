@@ -35,6 +35,7 @@ public class ZipSpringBootFormRequest {
 
     private Integer dockerPort;
 
+    private boolean microservices;
 
-
+    private List<String> modules = new ArrayList<>();
 }
